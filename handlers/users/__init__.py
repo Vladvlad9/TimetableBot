@@ -1,3 +1,3 @@
-from .registration import dp
+from .mainForms import dp
 
 __all__ = ["dp"]

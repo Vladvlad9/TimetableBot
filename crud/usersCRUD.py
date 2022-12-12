@@ -14,8 +14,8 @@ class CRUDUser(object):
         session.add(user)
         try:
             await session.commit()
-        except IntegrityError:
-            pass
+        except IntegrityError as eq:
+            print(eq)
         else:
             await session.refresh(user)
             return UserInDBSchema(**user.__dict__)

@@ -4,12 +4,11 @@ from pydantic import BaseModel, Field
 
 
 class UserSchema(BaseModel):
-    id: int = Field(ge=1)
-
     lname: str
     fname: str
     mname: str
     positions_id: int = Field(ge=1, default=1)
+    user_id: int
 
 
 class UserInDBSchema(UserSchema):

@@ -9,11 +9,12 @@ Base = declarative_base()
 class User(Base):
     __tablename__: str = "users"
 
-    id = Column(BigInteger, primary_key=True)
+    id = Column(Integer, primary_key=True)
+    user_id = Column(BigInteger, nullable=False)
     lname = Column(Text, nullable=False)
     fname = Column(Text, nullable=False)
     mname = Column(Text, nullable=False)
-    positions_id = Column(Integer, ForeignKey("positions.id", ondelete="NO ACTION"), nullable=False)
+    positions_id = Column(Integer, ForeignKey("positions.id", ondelete="NO ACTION"))
 
 
 class Week(Base):
