@@ -34,7 +34,7 @@ class CRUDUser(object):
     async def get(user_id: int, session: AsyncSession = None) -> UserInDBSchema | None:
         user = await session.execute(
             select(User)
-            .where(User.id == user_id)
+            .where(User.user_id == user_id)
         )
         if user := user.first():
             return UserInDBSchema(**user[0].__dict__)
