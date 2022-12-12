@@ -1,23 +1,25 @@
 """insert position
 
-Revision ID: 4d43d8549ba2
-Revises: 7e971f7bcd8d
-Create Date: 2022-12-12 18:32:22.080775
+Revision ID: 42b50a5131d5
+Revises: 47f8a842f929
+Create Date: 2022-12-12 21:11:15.522204
 
 """
 from alembic import op
 import sqlalchemy as sa
-from sqlalchemy.orm import Session
-from sqlalchemy.exc import IntegrityError
 
 
 # revision identifiers, used by Alembic.
-from models import create_sync_session, Position
+from sqlalchemy.exc import IntegrityError
 
-revision = '4d43d8549ba2'
-down_revision = '7e971f7bcd8d'
+from models import create_sync_session, Position
+from models.engine import Session
+
+revision = '42b50a5131d5'
+down_revision = '47f8a842f929'
 branch_labels = None
 depends_on = None
+
 
 roles = [
     'ЧБОБО',
