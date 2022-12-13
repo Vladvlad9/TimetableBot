@@ -49,6 +49,7 @@ async def answer(webAppMes):
 
 
 @dp.callback_query_handler(main_cb.filter())
+@dp.callback_query_handler(main_cb.filter(), state=UserStates.all_states)
 async def process_callback(callback: types.CallbackQuery, state: FSMContext = None):
     await MainForms.process(callback=callback, state=state)
 

@@ -10,6 +10,8 @@ class WeekSchema(BaseModel):
     Friday: str = Field(default=None)
     Saturday: str = Field(default=None)
     Sunday: str = Field(default=None)
+    description: str = Field(default=None)
+    handle: bool = Field(default=False)
 
 
 class WeekInDBSchema(WeekSchema):

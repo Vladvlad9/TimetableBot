@@ -15,13 +15,14 @@ class User(Base):
     fname = Column(Text, nullable=False)
     mname = Column(Text, nullable=False)
     positions_id = Column(Integer, ForeignKey("positions.id", ondelete="NO ACTION"))
+    nickname = Column(Text, default=None)
 
 
 class Week(Base):
     __tablename__: str = "weeks"
 
     id = Column(Integer, primary_key=True)
-    user_id = Column(BigInteger, ForeignKey("user.id", ondelete="NO ACTION"), nullable=False)
+    user_id = Column(BigInteger, ForeignKey("users.id", ondelete="NO ACTION"), nullable=False)
     Monday = Column(Text, default=None)
     Tuesday = Column(Text, default=None)
     Wednesday = Column(Text, default=None)
@@ -29,6 +30,9 @@ class Week(Base):
     Friday = Column(Text, default=None)
     Saturday = Column(Text, default=None)
     Sunday = Column(Text, default=None)
+    description = Column(Text, default=None)
+    handle = Column(Boolean, default=False)
+
 
 
 class Position(Base):
