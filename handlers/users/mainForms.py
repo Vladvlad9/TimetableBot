@@ -23,12 +23,6 @@ async def registration_start(message: types.Message):
         await UserForm.user_not_exists(message=message)
 
 
-@dp.message_handler(commands=["reg"])
-async def registration_start(message: types.Message):
-    await message.delete()
-    await message.answer(text="Привет!", reply_markup=await MainForms.open_site_kb())
-
-
 @dp.message_handler(content_types="web_app_data") #получаем отправленные данные
 async def answer(webAppMes):
     print(webAppMes) #вся информация о сообщении

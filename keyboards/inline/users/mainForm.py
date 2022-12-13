@@ -105,7 +105,6 @@ class MainForms:
                     data_timetable = await state.get_data()
                     get_user = await CRUDUser.get(user_id=callback.from_user.id)
                     user_week = await CRUDWeek.get(user_id=get_user.id)
-
                     if user_week:
                         user_week.Monday = data_timetable["Monday"]
                         user_week.Tuesday = data_timetable["Tuesday"]
@@ -147,7 +146,10 @@ class MainForms:
                 if await state.get_state() == "UserStates:FIO":
                     fio: list = message.text.split()
                     user_id: int = int(message.from_user.id)
-                    nickname = message.from_user.username
+                    nickname = "None"
+                    if message.from_user.username:
+                        nickname = message.from_user.username
+
                     if len(fio) < 3:
                         await message.answer(text="Введите полное ФИО!")
                         await UserStates.FIO.set()
@@ -190,7 +192,7 @@ class MainForms:
                         await state.update_data(Friday=json_string['Friday'])
                         await state.update_data(Saturday=json_string['Saturday'])
                         await state.update_data(Sunday=json_string['Sunday'])
-                        await state.update_data(Sunday=json_string['Description'])
+                        await state.update_data(Description=json_string['Description'])
 
                         await bot.send_message(text=f"Ваши пожелания:\n{text}",
                                                chat_id=message.chat.id,
