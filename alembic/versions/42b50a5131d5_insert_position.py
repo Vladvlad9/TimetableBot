@@ -21,34 +21,32 @@ branch_labels = None
 depends_on = None
 
 
-# roles = [
-#     'ЧБОБО',
-#     'Тренер',
-#     'Менеджер Джуниор',
-#     'Менеджер',
-#     'Заместитель Директора',
-#     'Диретор'
-#]
+roles = [
+    'ЧБОБО',
+    'Тренер',
+    'Менеджер Джуниор',
+    'Менеджер',
+    'Заместитель Директора',
+    'Диретор'
+]
 
 
 @create_sync_session
 def upgrade(session: Session = None) -> None:
-    pass
-    # for role in roles:
-    #     role = Position(name=role)
-    #     session.add(role)
-    #     try:
-    #         session.commit()
-    #     except IntegrityError:
-    #         pass
+    for role in roles:
+        role = Position(name=role)
+        session.add(role)
+        try:
+            session.commit()
+        except IntegrityError:
+            pass
 
 
 @create_sync_session
 def downgrade(session: Session = None) -> None:
-    pass
-    # for role in roles:
-    #     session.execute(
-    #         sa.delete(Position)
-    #         .where(Position.name == role)
-    #     )
-    #     session.commit()
+    for role in roles:
+        session.execute(
+            sa.delete(Position)
+            .where(Position.name == role)
+        )
+        session.commit()
