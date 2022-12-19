@@ -24,8 +24,8 @@ class MainForms:
             keyboard=[
                 [
                     KeyboardButton(text='Добаить расписание',
-                                   web_app=WebAppInfo(url="https://voluble-palmier-a2b577.netlify.app" + "/form"),
-                                   callback_data=main_cb.new("Site", 0, 0)),
+                                   web_app=WebAppInfo(url="https://voluble-palmier-a2b577.netlify.app" + "/form")
+                                   ),
                     KeyboardButton(text='Назад',
                                    callback_data=main_cb.new("MainForms", 0, 0))
                 ]
@@ -96,9 +96,9 @@ class MainForms:
                     get_position = await CRUDPosition.get(position_id=get_user.positions_id)
 
                     await callback.message.delete()
-                    await callback.message.answer(text=f"{get_user.lname} {get_user.fname} {get_user.mname}\n"
-                                                       f"Ваша должность {get_position.name}",
-                                                  reply_markup=await MainForms.open_site_kb())
+                    await callback.message.answer(text=f"{get_user.lname} {get_user.fname} {get_user.mname}\n",
+                                                  reply_markup=await MainForms.open_site_kb()
+                                                  )
                     await UserStates.Back.set()
 
                 elif data.get("target") == "Approved":
