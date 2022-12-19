@@ -46,23 +46,23 @@ async def registration_start(message: types.Message):
         await UserForm.user_not_exists(message=message)
 
 
-@dp.message_handler(content_types="web_app_data") #получаем отправленные данные
-async def answer(webAppMes):
-    print(webAppMes) #вся информация о сообщении
-    print(webAppMes.web_app_data.data) #конкретно то что мы передали в бота
-    json_string = json.loads(webAppMes.web_app_data.data)
-
-    text = f"Понедельник - {json_string['Monday']}\n" \
-           f"Вторник - {json_string['Tuesday']}\n" \
-           f"Среда - {json_string['Wednesday']}\n" \
-           f"Четверг - {json_string['Thursday']}\n" \
-           f"Пятница - {json_string['Friday']}\n" \
-           f"Суббота - {json_string['Saturday']}\n" \
-           f"Воскресенье - {json_string['Sunday']}"
-
-    await bot.send_message(text=f"получили инофрмацию из веб-приложения:\n{text}",
-                           chat_id=webAppMes.chat.id)
-    print('asd')
+# @dp.message_handler(content_types="web_app_data") #получаем отправленные данные
+# async def answer(webAppMes):
+#     print(webAppMes) #вся информация о сообщении
+#     print(webAppMes.web_app_data.data) #конкретно то что мы передали в бота
+#     json_string = json.loads(webAppMes.web_app_data.data)
+#
+#     text = f"Понедельник - {json_string['Monday']}\n" \
+#            f"Вторник - {json_string['Tuesday']}\n" \
+#            f"Среда - {json_string['Wednesday']}\n" \
+#            f"Четверг - {json_string['Thursday']}\n" \
+#            f"Пятница - {json_string['Friday']}\n" \
+#            f"Суббота - {json_string['Saturday']}\n" \
+#            f"Воскресенье - {json_string['Sunday']}"
+#
+#     await bot.send_message(text=f"получили инофрмацию из веб-приложения:\n{text}",
+#                            chat_id=webAppMes.chat.id)
+#     print('asd')
 
 
 @dp.callback_query_handler(main_cb.filter())
