@@ -2,9 +2,20 @@ from aiogram import types
 from aiogram.dispatcher import FSMContext
 
 from filters import IsAdmin
-from keyboards import admin_cb, AdminPanel
+from keyboards import admin_cb, AdminPanel, main_cb
 from loader import dp
 from states.admins.admin import AddMailingFSM
+from states.users import UserStates
+
+
+@dp.message_handler(IsAdmin(), commands=["admin"], state=UserStates.all_states)
+async def sing_in_admin_menu(message: types.Message, state: FSMContext):
+    await state.finish()
+    await message.delete()
+    await message.answer(
+        text=f"<b>{message.from_user.full_name}</b>, вы вошли в админ панель.",
+        reply_markup=await AdminPanel.get_admin_panel()
+    )
 
 
 @dp.message_handler(IsAdmin(), commands=["admin"])

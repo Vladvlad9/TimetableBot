@@ -5,11 +5,34 @@ from aiogram.dispatcher.storage import FSMContext
 from aiogram.utils.exceptions import BadRequest
 
 from crud.usersCRUD import CRUDUser
-from keyboards import UserForm
+from filters import IsAdmin
+from keyboards import UserForm, admin_cb, AdminPanel
 from keyboards.inline.users.mainForm import MainForms
 from keyboards.inline.users.all_Callback import main_cb
 from loader import dp, bot
 from states.users import UserStates
+
+
+@dp.message_handler(commands=["admin"], state=UserStates.all_states)
+async def sing_in_admin_menu(message: types.Message, state: FSMContext):
+    await state.finish()
+    await message.delete()
+    await message.answer(
+        text=f"<b>{message.from_user.full_name}</b>, вы вошли в админ панель.",
+        reply_markup=await AdminPanel.get_admin_panel()
+    )
+
+
+@dp.message_handler(commands=["start"], state=UserStates.all_states)
+async def registration_start(message: types.Message, state: FSMContext):
+    await state.finish()
+    get_user = await CRUDUser.get(user_id=message.from_user.id)
+    if get_user:
+        await message.delete()
+        await UserForm.user_exists(message=message)
+    else:
+        await message.delete()
+        await UserForm.user_not_exists(message=message)
 
 
 @dp.message_handler(commands=["start"])
