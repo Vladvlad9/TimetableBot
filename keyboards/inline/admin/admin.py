@@ -34,7 +34,7 @@ class AdminPanel:
                 ],
                 [
                     InlineKeyboardButton(text="Дать обратную связь",
-                                         url=f"www.t.me/{user.nickname}"
+                                         callback_data=admin_cb.new("Feedback", user_id, user_id_tg)
                                          )
                 ],
                 [
@@ -98,6 +98,9 @@ class AdminPanel:
                                                      reply_markup=await AdminPanel.approved_ikb(target="ShowTimetable",
                                                                                                 user_id=user_id,
                                                                                                 user_id_tg=user_id_tg))
+
+                elif data.get("target") == "Feedback":
+                    bot.send_message(int(data.get('editId')), 'Привет')
 
         if message:
             await message.delete()
