@@ -23,7 +23,7 @@ class MainForms:
             one_time_keyboard=True,
             keyboard=[
                 [
-                    KeyboardButton(text='Добаить расписание',
+                    KeyboardButton(text='Добавить расписание',
                                    web_app=WebAppInfo(url="https://voluble-palmier-a2b577.netlify.app" + "/form")
                                    ),
                     KeyboardButton(text='Назад',
@@ -86,6 +86,9 @@ class MainForms:
                 if data.get("target") == "Registration":
                     await callback.message.edit_text(text="Введите ФИО")
                     await UserStates.FIO.set()
+
+                elif data.get("target") == "Profile":
+                    pass
 
                 elif data.get("target") == "MainForms":
                     await callback.message.answer(text="Главное меню",

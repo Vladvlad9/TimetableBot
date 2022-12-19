@@ -83,21 +83,25 @@ class AdminPanel:
                     user_id: int = int(data.get("id"))
                     user_id_tg: int = int(data.get("editId"))
                     weeks = await CRUDWeek.get(user_id=user_id)
+                    if weeks:
+                        text = "Хочу работать так!\n\n" \
+                               f"Понедельник - {weeks.Monday}\n" \
+                               f"Вторник - {weeks.Tuesday}\n" \
+                               f"Среда - {weeks.Wednesday}\n" \
+                               f"Четверг - {weeks.Thursday}\n" \
+                               f"Пятница - {weeks.Friday}\n" \
+                               f"Суббота - {weeks.Saturday}\n" \
+                               f"Воскресенье - {weeks.Sunday}\n\n" \
+                               f"Пожелание - {weeks.description}"
 
-                    text = "Хочу работать так!\n\n" \
-                           f"Понедельник - {weeks.Monday}\n" \
-                           f"Вторник - {weeks.Tuesday}\n" \
-                           f"Среда - {weeks.Wednesday}\n" \
-                           f"Четверг - {weeks.Thursday}\n" \
-                           f"Пятница - {weeks.Friday}\n" \
-                           f"Суббота - {weeks.Saturday}\n" \
-                           f"Воскресенье - {weeks.Sunday}\n\n" \
-                           f"Пожелание - {weeks.description}"
-
-                    await callback.message.edit_text(text=text,
-                                                     reply_markup=await AdminPanel.approved_ikb(target="ShowTimetable",
-                                                                                                user_id=user_id,
-                                                                                                user_id_tg=user_id_tg))
+                        await callback.message.edit_text(text=text,
+                                                         reply_markup=await AdminPanel.approved_ikb(
+                                                             target="ShowTimetable",
+                                                             user_id=user_id,
+                                                             user_id_tg=user_id_tg))
+                    else:
+                        await callback.message.edit_text(text="Пользователь не добавил расписание",
+                                                         reply_markup=await AdminPanel.get_admin_panel())
 
                 elif data.get("target") == "Feedback":
                     bot.send_message(int(data.get('editId')), 'Привет')
