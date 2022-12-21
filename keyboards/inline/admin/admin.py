@@ -30,11 +30,13 @@ class AdminPanel:
                 [
                     InlineKeyboardButton(text="Обработать",
                                          callback_data=admin_cb.new("Handle", user_id, user_id_tg)
+
                                          )
                 ],
                 [
                     InlineKeyboardButton(text="Дать обратную связь",
-                                         callback_data=admin_cb.new("Feedback", user_id, user_id_tg)
+                                         callback_data=admin_cb.new("Feedback", user_id, user_id_tg),
+                                         url=f"https://t.me/{user.nickname}"
                                          )
                 ],
                 [
@@ -98,13 +100,14 @@ class AdminPanel:
                                                          reply_markup=await AdminPanel.approved_ikb(
                                                              target="ShowTimetable",
                                                              user_id=user_id,
-                                                             user_id_tg=user_id_tg))
+                                                             user_id_tg=user_id_tg)
+                                                         )
                     else:
                         await callback.message.edit_text(text="Пользователь не добавил расписание",
-                                                         reply_markup=await AdminPanel.get_admin_panel())
-
-                elif data.get("target") == "Feedback":
-                    bot.send_message(int(data.get('editId')), 'Привет')
+                                                         reply_markup=await AdminPanel.approved_ikb(
+                                                             target="ShowTimetable",
+                                                             user_id=user_id,
+                                                             user_id_tg=user_id_tg))
 
         if message:
             await message.delete()

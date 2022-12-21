@@ -1,6 +1,6 @@
 from datetime import datetime
 
-from sqlalchemy import Column, TIMESTAMP, VARCHAR, Integer, Boolean, Text, ForeignKey, CHAR, BigInteger, SmallInteger
+from sqlalchemy import Column, Integer, Boolean, Text, ForeignKey, BigInteger
 from sqlalchemy.orm import declarative_base
 
 Base = declarative_base()
@@ -23,16 +23,15 @@ class Week(Base):
 
     id = Column(Integer, primary_key=True)
     user_id = Column(BigInteger, ForeignKey("users.id", ondelete="NO ACTION"), nullable=False)
-    Monday = Column(Text, default=None)
-    Tuesday = Column(Text, default=None)
-    Wednesday = Column(Text, default=None)
-    Thursday = Column(Text, default=None)
-    Friday = Column(Text, default=None)
-    Saturday = Column(Text, default=None)
-    Sunday = Column(Text, default=None)
-    description = Column(Text, default=None)
-    handle = Column(Boolean, default=False)
-
+    Monday = Column(Text, nullable=True)
+    Tuesday = Column(Text, nullable=True)
+    Wednesday = Column(Text, nullable=True)
+    Thursday = Column(Text, nullable=True)
+    Friday = Column(Text, nullable=True)
+    Saturday = Column(Text, nullable=True)
+    Sunday = Column(Text, nullable=True)
+    description = Column(Text, nullable=True)
+    handle = Column(Boolean, default=True)
 
 
 class Position(Base):

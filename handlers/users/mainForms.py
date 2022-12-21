@@ -29,7 +29,13 @@ async def registration_start(message: types.Message, state: FSMContext):
     get_user = await CRUDUser.get(user_id=message.from_user.id)
     if get_user:
         await message.delete()
-        await UserForm.user_exists(message=message)
+        if get_user.positions_id == 2:
+            await message.answer(
+                text=f"<b>{get_user.lname}</b>, вы вошли в админ панель.",
+                reply_markup=await AdminPanel.get_admin_panel()
+            )
+        else:
+            await UserForm.user_exists(message=message)
     else:
         await message.delete()
         await UserForm.user_not_exists(message=message)
@@ -40,7 +46,14 @@ async def registration_start(message: types.Message):
     get_user = await CRUDUser.get(user_id=message.from_user.id)
     if get_user:
         await message.delete()
-        await UserForm.user_exists(message=message)
+        if get_user.positions_id == 2:
+            await message.answer(
+                text=f"<b>{message.from_user.full_name}</b>, вы вошли в админ панель.",
+                reply_markup=await AdminPanel.get_admin_panel()
+            )
+        else:
+            await UserForm.user_exists(message=message)
+
     else:
         await message.delete()
         await UserForm.user_not_exists(message=message)
