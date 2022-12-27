@@ -78,6 +78,21 @@ class MainForms:
         )
 
     @staticmethod
+    async def profile_user_ikb(user_id) -> InlineKeyboardMarkup:
+        data_main_menu = {
+            "Посмотреть расписание": {"target": "ProfileTimetable", "user_id": user_id},
+            "◀️ Назад": {"target": "MainForms", "user_id": user_id}
+        }
+        return InlineKeyboardMarkup(
+            inline_keyboard=[
+                [
+                    InlineKeyboardButton(text=name_menu,
+                                         callback_data=main_cb.new(target_menu['target'], target_menu['user_id'], 0))
+                ] for name_menu, target_menu in data_main_menu.items()
+            ]
+        )
+
+    @staticmethod
     async def process(callback: CallbackQuery = None, message: Message = None, state: FSMContext = None) -> None:
         if callback:
             if callback.data.startswith("main"):
@@ -88,11 +103,51 @@ class MainForms:
                     await UserStates.FIO.set()
 
                 elif data.get("target") == "Profile":
-                    pass
+                    try:
+                        user_id = callback.from_user.id  # 964691423
+                        if user_id == 964691423:
+                            await callback.message.edit_text(text="Аннушка ты самая красивая и крутая\n"
+                                                                  "Никогда не грусти!\n"
+                                                                  "C наступающим новым годом 🌹 💐 🌷 🌺",
+                                                             reply_markup=await MainForms.profile_user_ikb(
+                                                                 user_id=callback.from_user.id)
+                                                             )
+                        else:
+                            await callback.message.edit_text(text="Мой Профиль",
+                                                             reply_markup=await MainForms.profile_user_ikb(
+                                                                 user_id=callback.from_user.id)
+                                                             )
+                    except Exception as e:
+                        print(e)
+
+                elif data.get("target") == "ProfileTimetable":
+                    try:
+                        get_user = await CRUDUser.get(user_id=int(data.get("id")))
+                        weeks_user = await CRUDWeek.get(user_id=get_user.id)
+                        if weeks_user:
+                            text = "Мои пожелания\n\n" \
+                                   f"Понедельник - {weeks_user.Monday}\n" \
+                                   f"Вторник - {weeks_user.Tuesday}\n" \
+                                   f"Среда - {weeks_user.Wednesday}\n" \
+                                   f"Четверг - {weeks_user.Thursday}\n" \
+                                   f"Пятница - {weeks_user.Friday}\n" \
+                                   f"Суббота - {weeks_user.Saturday}\n" \
+                                   f"Воскресенье - {weeks_user.Sunday}\n\n" \
+                                   f"Пожелание - {weeks_user.description}"
+                            await callback.message.edit_text(text=text,
+                                                             reply_markup=await MainForms.back_ikb("MainForms"),
+                                                             parse_mode="HTML")
+                        else:
+                            await callback.message.edit_text(text="‼️Ты еще не добавил расписание‼️",
+                                                             reply_markup=await MainForms.back_ikb(target="MainForms"))
+                    except Exception as e:
+                        print(e)
 
                 elif data.get("target") == "MainForms":
-                    await callback.message.answer(text="Главное меню",
-                                                  reply_markup=await MainForms.main_menu_ikb(user_id=callback.from_user.id))
+                    await callback.message.edit_text(text="Главное меню",
+                                                     reply_markup=await MainForms.main_menu_ikb(
+                                                         user_id=callback.from_user.id)
+                                                     )
 
                 elif data.get("target") == "Timetable":
                     get_user = await CRUDUser.get(user_id=int(data.get("id")))
@@ -173,35 +228,41 @@ class MainForms:
                             await state.finish()
 
                 elif await state.get_state() == "UserStates:Back":
-                    if message.content_type == "web_app_data":
-                        webAppMes = message.web_app_data.data
-                        json_string = json.loads(webAppMes)
+                    try:
+                        if message.content_type == "web_app_data":
+                            webAppMes = message.web_app_data.data
+                            json_string = json.loads(webAppMes)
 
-                        text = f"Понедельник - <b>{json_string['Monday']}</b>\n" \
-                               f"Вторник - <b>{json_string['Tuesday']}</b>\n" \
-                               f"Среда - <b>{json_string['Wednesday']}</b>\n" \
-                               f"Четверг - <b>{json_string['Thursday']}</b>\n" \
-                               f"Пятница - <b>{json_string['Friday']}</b>\n" \
-                               f"Суббота - <b>{json_string['Saturday']}</b>\n" \
-                               f"Воскресенье - <b>{json_string['Sunday']}</b>\n" \
-                               f"Пожелание - <b>{json_string['Description']}</b>"
-                        user = await CRUDUser.get(user_id=message.from_user.id)
+                            text = f"Понедельник - <b>{json_string['Monday']}</b>\n" \
+                                   f"Вторник - <b>{json_string['Tuesday']}</b>\n" \
+                                   f"Среда - <b>{json_string['Wednesday']}</b>\n" \
+                                   f"Четверг - <b>{json_string['Thursday']}</b>\n" \
+                                   f"Пятница - <b>{json_string['Friday']}</b>\n" \
+                                   f"Суббота - <b>{json_string['Saturday']}</b>\n" \
+                                   f"Воскресенье - <b>{json_string['Sunday']}</b>\n" \
+                                   f"Пожелание - <b>{json_string['Description']}</b>"
+                            user = await CRUDUser.get(user_id=message.from_user.id)
 
-                        await state.update_data(user_id=user.id)
-                        await state.update_data(Monday=json_string['Monday'])
-                        await state.update_data(Tuesday=json_string['Tuesday'])
-                        await state.update_data(Wednesday=json_string['Wednesday'])
-                        await state.update_data(Thursday=json_string['Thursday'])
-                        await state.update_data(Friday=json_string['Friday'])
-                        await state.update_data(Saturday=json_string['Saturday'])
-                        await state.update_data(Sunday=json_string['Sunday'])
-                        await state.update_data(Description=json_string['Description'])
+                            await state.update_data(user_id=user.id)
+                            await state.update_data(Monday=json_string['Monday'])
+                            await state.update_data(Tuesday=json_string['Tuesday'])
+                            await state.update_data(Wednesday=json_string['Wednesday'])
+                            await state.update_data(Thursday=json_string['Thursday'])
+                            await state.update_data(Friday=json_string['Friday'])
+                            await state.update_data(Saturday=json_string['Saturday'])
+                            await state.update_data(Sunday=json_string['Sunday'])
+                            await state.update_data(Description=json_string['Description'])
 
-                        await bot.send_message(text=f"Ваши пожелания:\n{text}",
-                                               chat_id=message.chat.id,
-                                               reply_markup=await MainForms.approved_ikb(),
-                                               parse_mode="HTML")
-
+                            await bot.send_message(text=f"‼️Нажми еще раз 'Отправить'\n"
+                                                        f"что бы твои пожеления увидел менеджер‼️\n\n"
+                                                        f"Ваши пожелания:\n{text}",
+                                                   chat_id=message.chat.id,
+                                                   reply_markup=await MainForms.approved_ikb(),
+                                                   parse_mode="HTML")
+                    except Exception as e:
+                        await message.answer(text=f"Ошибка расписание не добавлено\n\n"
+                                                  f"Обратись к разработчику Владислав и покажи эту ошибку\n\n"
+                                                  f"{e}")
                     if message.text == "Назад":
                         await message.answer(text="Главное меню",
                                              reply_markup=await MainForms.main_menu_ikb(

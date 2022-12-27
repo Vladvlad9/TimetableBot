@@ -10,6 +10,7 @@ class UserSchema(BaseModel):
     positions_id: int = Field(default=1)
     user_id: int
     nickname: str = Field(default=None)
+    check: bool
 
 
 class UserInDBSchema(UserSchema):

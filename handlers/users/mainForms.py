@@ -76,6 +76,22 @@ async def registration_start(message: types.Message):
 #     await bot.send_message(text=f"получили инофрмацию из веб-приложения:\n{text}",
 #                            chat_id=webAppMes.chat.id)
 #     print('asd')
+@dp.message_handler(commands=["test"])
+async def registration_start(message: types.Message):
+    user = await CRUDUser.get_all(check=True)
+    try:
+        for users in user:
+            await bot.send_message(chat_id=users.user_id,
+                                   text=f'‼️Напоминание‼️\n\n'
+                                        f'🎉Сенодня вторник!\n'
+                                        f'Ты не добавил расписание на 02.01.23 - 08.01.23\n'
+                                        f'Срок до <b>среды 19:00</b>\n\n'
+                                        f'C наступающим новым годом🥳 🎁 🎉 🎊\n'
+                                        f'Надеюсь тайный санта тебя уже порадовал 🎅',
+                                   parse_mode="HTML"
+                                   )
+    except Exception as e:
+        print(e)
 
 
 @dp.callback_query_handler(main_cb.filter())
