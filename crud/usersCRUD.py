@@ -42,16 +42,16 @@ class CRUDUser(object):
     @staticmethod
     @create_async_session
     async def get_all(positions_id: int = None,
-                      check: bool = False, session: AsyncSession = None) -> list[UserInDBSchema]:
+                      checked: bool = False, session: AsyncSession = None) -> list[UserInDBSchema]:
         if positions_id:
             users = await session.execute(
                 select(User)
                 .where(User.positions_id == positions_id)
             )
-        elif check:
+        elif checked:
             users = await session.execute(
                 select(User)
-                .where(User.check == check)
+                .where(User.checked == checked)
             )
         else:
             users = await session.execute(

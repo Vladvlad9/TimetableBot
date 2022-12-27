@@ -78,7 +78,7 @@ async def registration_start(message: types.Message):
 #     print('asd')
 @dp.message_handler(commands=["test"])
 async def registration_start(message: types.Message):
-    user = await CRUDUser.get_all(check=True)
+    user = await CRUDUser.get_all(checked=True)
     try:
         for users in user:
             await bot.send_message(chat_id=users.user_id,

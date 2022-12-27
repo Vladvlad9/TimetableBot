@@ -16,7 +16,7 @@ class User(Base):
     mname = Column(Text, nullable=False)
     positions_id = Column(Integer, ForeignKey("positions.id", ondelete="NO ACTION"))
     nickname = Column(Text, default=None)
-    check = Column(Boolean, default=False)
+    checked = Column(Boolean, default=False)
 
 
 class Week(Base):
