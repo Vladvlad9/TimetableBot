@@ -216,6 +216,7 @@ class MainForms:
                         await state.update_data(lname=fio[0].title())
                         await state.update_data(fname=fio[1].title())
                         await state.update_data(mname=fio[2].title())
+                        await state.update_data(checked=False)
                         await state.update_data(nickname=nickname)
 
                         data = await state.get_data()
