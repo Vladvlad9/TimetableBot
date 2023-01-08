@@ -1,8 +1,8 @@
 {
   "BOT": {
-    "TOKEN": "5403620291:AAFrLZ_rbWzEDpU8Qja-Qgt6qzo2vSrmuAY",
+    "TOKEN": "5732737264:AAF_q9nYlV2_tdbLkjEsw8apqGmmVW1xSx8",
     "ADMINS": [381252111, 1867292900]
   },
-  "DATABASE": "postgres:postgres@localhost:5432/timetable"
+  "DATABASE": "root:postgres@localhost:5432/timetable"
 
 }
