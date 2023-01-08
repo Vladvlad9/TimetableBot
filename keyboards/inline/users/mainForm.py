@@ -194,7 +194,7 @@ class MainForms:
                                                                   "Попробуй добавить еще раз расписание или "
                                                                   "обратись к менеджеру")
                             await bot.send_message(chat_id=381252111,
-                                                   text=f"{get_user.lname} {get_user.fname} добавил дасписание",
+                                                   text=f"{get_user.lname} {get_user.fname} Обновил расписание",
                                                    parse_mode="HTML",
                                                    )
 
@@ -206,6 +206,10 @@ class MainForms:
                                                          reply_markup=await MainForms.main_menu_ikb(
                                                              user_id=callback.from_user.id)
                                                          )
+                        await bot.send_message(chat_id=381252111,
+                                               text=f"{get_user.lname} {get_user.fname} добавил дасписание",
+                                               parse_mode="HTML",
+                                               )
                     await state.finish()
 
         if message:
