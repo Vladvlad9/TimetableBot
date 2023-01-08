@@ -185,7 +185,7 @@ class MainForms:
                                                                  user_id=callback.from_user.id)
                                                              )
                             await bot.send_message(chat_id=381252111,
-                                                   text=f"{get_user.lname} {get_user.fname} Обновил дасписание",
+                                                   text=f"{get_user.lname} {get_user.fname} Обновил расписание",
                                                    parse_mode="HTML",
                                                    )
                         except Exception as e:
