@@ -184,8 +184,8 @@ class MainForms:
                                                              reply_markup=await MainForms.main_menu_ikb(
                                                                  user_id=callback.from_user.id)
                                                              )
-                            await bot.send_message(chat_id=1170684135,
-                                                   text=f"{get_user.lname} {get_user.fname} добавил дасписание",
+                            await bot.send_message(chat_id=381252111,
+                                                   text=f"{get_user.lname} {get_user.fname} Обновил дасписание",
                                                    parse_mode="HTML",
                                                    )
                         except Exception as e:
@@ -193,6 +193,11 @@ class MainForms:
                             await callback.message.edit_text(text="Возникла Ошибка\n"
                                                                   "Попробуй добавить еще раз расписание или "
                                                                   "обратись к менеджеру")
+                            await bot.send_message(chat_id=381252111,
+                                                   text=f"{get_user.lname} {get_user.fname} добавил дасписание",
+                                                   parse_mode="HTML",
+                                                   )
+
                         await state.finish()
                     else:
                         await CRUDWeek.add(week=WeekSchema(**data_timetable))
