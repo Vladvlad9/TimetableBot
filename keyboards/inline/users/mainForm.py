@@ -190,7 +190,7 @@ class MainForms:
                                                    )
                         except Exception as e:
                             print(e)
-                            await callback.message.edit_text(text="Возникла Ошибка\n"
+                            await callback.message.edit_text(text="Возникла Ошибка \n"
                                                                   "Попробуй добавить еще раз расписание или "
                                                                   "обратись к менеджеру")
                             await bot.send_message(chat_id=381252111,
