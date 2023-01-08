@@ -88,12 +88,12 @@ async def registration_start(message: types.Message):
                   "❗ Меню ➡️ Старт ... ❗️"
 
     text = f'‼️Напоминание‼️\n\n'\
-           f'Понедельник\n'\
+           f'Вторник\n'\
            f'Ты не добавил расписание на 09.01.23 - 15.01.23\n'\
            f'Срок до <b>среды 19:00</b>\n\n' \
-           f'(Меню -> Войти ...)'
+           f'(Меню -> Войти ...)\n\n'
 
-    user = await CRUDUser.get_all()
+    user = await CRUDUser.get_all(checked=True)
     try:
         for users in user:
             await bot.send_message(chat_id=users.user_id,

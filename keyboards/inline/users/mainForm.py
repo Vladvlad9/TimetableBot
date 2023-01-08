@@ -92,6 +92,7 @@ class MainForms:
             ]
         )
 
+
     @staticmethod
     async def process(callback: CallbackQuery = None, message: Message = None, state: FSMContext = None) -> None:
         if callback:
@@ -164,22 +165,35 @@ class MainForms:
                     get_user = await CRUDUser.get(user_id=callback.from_user.id)
                     user_week = await CRUDWeek.get(user_id=get_user.id)
                     if user_week:
-                        user_week.Monday = data_timetable["Monday"]
-                        user_week.Tuesday = data_timetable["Tuesday"]
-                        user_week.Wednesday = data_timetable["Wednesday"]
-                        user_week.Thursday = data_timetable["Thursday"]
-                        user_week.Friday = data_timetable["Friday"]
-                        user_week.Saturday = data_timetable["Saturday"]
-                        user_week.Sunday = data_timetable["Sunday"]
-                        user_week.description = data_timetable["Description"]
-                        user_week.handle = True
+                        try:
+                            user_week.Monday = data_timetable["Monday"]
+                            user_week.Tuesday = data_timetable["Tuesday"]
+                            user_week.Wednesday = data_timetable["Wednesday"]
+                            user_week.Thursday = data_timetable["Thursday"]
+                            user_week.Friday = data_timetable["Friday"]
+                            user_week.Saturday = data_timetable["Saturday"]
+                            user_week.Sunday = data_timetable["Sunday"]
+                            user_week.description = data_timetable["Description"]
+                            user_week.handle = True
+                            get_user.checked = True
 
-                        await CRUDWeek.update(user_week=user_week)
-                        await callback.message.edit_text(text="Вы успешно отправили расписание\n"
-                                                              "Главное меню",
-                                                         reply_markup=await MainForms.main_menu_ikb(
-                                                             user_id=callback.from_user.id)
-                                                         )
+                            await CRUDUser.update(user_id=get_user)
+                            await CRUDWeek.update(user_week=user_week)
+                            await callback.message.edit_text(text="Вы успешно отправили расписание\n"
+                                                                  "Главное меню",
+                                                             reply_markup=await MainForms.main_menu_ikb(
+                                                                 user_id=callback.from_user.id)
+                                                             )
+                            await bot.send_message(chat_id=1170684135,
+                                                   text=f"{get_user.lname} {get_user.fname} добавил дасписание",
+                                                   parse_mode="HTML",
+                                                   )
+                        except Exception as e:
+                            print(e)
+                            await callback.message.edit_text(text="Возникла Ошибка\n"
+                                                                  "Попробуй добавить еще раз расписание или "
+                                                                  "обратись к менеджеру")
+                        await state.finish()
                     else:
                         await CRUDWeek.add(week=WeekSchema(**data_timetable))
                         await callback.message.edit_text(text="Вы успешно отправили расписание\n"
