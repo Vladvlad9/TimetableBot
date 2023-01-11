@@ -194,7 +194,7 @@ class MainForms:
                                                                   "Попробуй добавить еще раз расписание или "
                                                                   "обратись к менеджеру")
                             await bot.send_message(chat_id=381252111,
-                                                   text=f"{get_user.lname} {get_user.fname} Обновил расписание",
+                                                   text=f"{get_user.lname} {get_user.fname} Возникла ошибка",
                                                    parse_mode="HTML",
                                                    )
 
