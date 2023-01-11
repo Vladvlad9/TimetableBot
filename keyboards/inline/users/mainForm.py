@@ -175,7 +175,7 @@ class MainForms:
                             user_week.Sunday = data_timetable["Sunday"]
                             user_week.description = data_timetable["Description"]
                             user_week.handle = True
-                            get_user.checked = True
+                            get_user.checked = False
 
                             await CRUDUser.update(user_id=get_user)
                             await CRUDWeek.update(user_week=user_week)
@@ -184,7 +184,7 @@ class MainForms:
                                                              reply_markup=await MainForms.main_menu_ikb(
                                                                  user_id=callback.from_user.id)
                                                              )
-                            await bot.send_message(chat_id=381252111,
+                            await bot.send_message(chat_id=1170684135,
                                                    text=f"{get_user.lname} {get_user.fname} Обновил расписание",
                                                    parse_mode="HTML",
                                                    )
@@ -206,7 +206,7 @@ class MainForms:
                                                          reply_markup=await MainForms.main_menu_ikb(
                                                              user_id=callback.from_user.id)
                                                          )
-                        await bot.send_message(chat_id=381252111,
+                        await bot.send_message(chat_id=1170684135,
                                                text=f"{get_user.lname} {get_user.fname} добавил дасписание",
                                                parse_mode="HTML",
                                                )
