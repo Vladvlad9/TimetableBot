@@ -108,8 +108,7 @@ class MainForms:
                         user_id = callback.from_user.id  # 964691423
                         if user_id == 964691423:
                             await callback.message.edit_text(text="Аннушка ты самая красивая и крутая\n"
-                                                                  "Никогда не грусти!\n"
-                                                                  "C наступающим новым годом 🌹 💐 🌷 🌺",
+                                                                  "Никогда не грусти!\n",
                                                              reply_markup=await MainForms.profile_user_ikb(
                                                                  user_id=callback.from_user.id)
                                                              )
