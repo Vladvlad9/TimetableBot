@@ -12,11 +12,18 @@ admin_cb = CallbackData("admin", "target", "id", "editId")
 class AdminPanel:
     @staticmethod
     async def get_admin_panel() -> InlineKeyboardMarkup:
+        get_count = await CRUDUser.get_all(checked=True)
+        get_all_count = await CRUDUser.get_all()
         return InlineKeyboardMarkup(
             inline_keyboard=[
                 [
-                    InlineKeyboardButton(text="Посмотреть Расписание",
+                    InlineKeyboardButton(text=f"Все работники ({len(get_all_count)})",
                                          callback_data=admin_cb.new("ShowTimetable", 0, 0)
+                                         )
+                ],
+                [
+                    InlineKeyboardButton(text=f"Добавили расписание ({len(get_count)})",
+                                         callback_data=admin_cb.new("AddTimetable", 0, 0)
                                          )
                 ]
             ]
@@ -66,6 +73,24 @@ class AdminPanel:
         )
 
     @staticmethod
+    async def order_show_get_user_ikb(target: str, checked: bool) -> InlineKeyboardMarkup:
+        return InlineKeyboardMarkup(
+            inline_keyboard=[
+                                [
+                                    InlineKeyboardButton(text=f"{user.lname} {user.fname}",
+                                                         callback_data=admin_cb.new("UserProfile", user.id,
+                                                                                    user.user_id))
+                                ]
+                                for user in await CRUDUser.get_all(checked=checked)
+                            ] + [
+                                [
+                                    InlineKeyboardButton(text="← Назад",
+                                                         callback_data=admin_cb.new(target, 0, 0))
+                                ]
+                            ]
+        )
+
+    @staticmethod
     async def process(callback: CallbackQuery = None, message: Message = None, state: FSMContext = None) -> None:
         if callback:
             if callback.data.startswith("admin"):
@@ -79,6 +104,13 @@ class AdminPanel:
                 elif data.get("target") == "ShowTimetable":
                     await callback.message.edit_text(text="Пользователи которые скинули расписание",
                                                      reply_markup=await AdminPanel.get_user_ikb(target="StartAdmin")
+                                                     )
+
+                elif data.get("target") == "AddTimetable":
+                    await callback.message.edit_text(text="Пользователи которые скинули расписание",
+                                                     reply_markup=await AdminPanel.order_show_get_user_ikb(
+                                                         target="StartAdmin",
+                                                         checked=True)
                                                      )
 
                 elif data.get("target") == "UserProfile":

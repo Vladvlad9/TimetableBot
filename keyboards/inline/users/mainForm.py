@@ -179,15 +179,16 @@ class MainForms:
 
                             await CRUDUser.update(user_id=get_user)
                             await CRUDWeek.update(user_week=user_week)
-                            await callback.message.edit_text(text="Вы успешно отправили расписание\n"
+                            await callback.message.edit_text(text="Вы успешно Обновили расписание\n"
                                                                   "Главное меню",
                                                              reply_markup=await MainForms.main_menu_ikb(
                                                                  user_id=callback.from_user.id)
                                                              )
-                            await bot.send_message(chat_id=1170684135,
+                            await bot.send_message(chat_id=1170684135,  #1170684135  381252111
                                                    text=f"{get_user.lname} {get_user.fname} Обновил расписание",
                                                    parse_mode="HTML",
                                                    )
+                            await state.finish()
                         except Exception as e:
                             print(e)
                             await callback.message.edit_text(text="Возникла Ошибка \n"
@@ -200,13 +201,16 @@ class MainForms:
 
                         await state.finish()
                     else:
+                        get_user = await CRUDUser.get(user_id=callback.from_user.id)
+                        get_user.checked = False
+                        await CRUDUser.update(user_id=get_user)
                         await CRUDWeek.add(week=WeekSchema(**data_timetable))
                         await callback.message.edit_text(text="Вы успешно отправили расписание\n"
                                                               "Главное меню",
                                                          reply_markup=await MainForms.main_menu_ikb(
                                                              user_id=callback.from_user.id)
                                                          )
-                        await bot.send_message(chat_id=1170684135,
+                        await bot.send_message(chat_id=1170684135,  #1170684135   381252111
                                                text=f"{get_user.lname} {get_user.fname} добавил дасписание",
                                                parse_mode="HTML",
                                                )
@@ -275,7 +279,7 @@ class MainForms:
                             await state.update_data(Friday=json_string['Friday'])
                             await state.update_data(Saturday=json_string['Saturday'])
                             await state.update_data(Sunday=json_string['Sunday'])
-                            await state.update_data(Description=json_string['Description'])
+                            await state.update_data(description=json_string['Description'])
 
                             await bot.send_message(text=f"‼️Нажми еще раз 'Отправить'\n"
                                                         f"что бы твои пожеления увидел менеджер‼️\n\n"
