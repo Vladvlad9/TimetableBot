@@ -12,7 +12,7 @@ admin_cb = CallbackData("admin", "target", "id", "editId")
 class AdminPanel:
     @staticmethod
     async def get_admin_panel() -> InlineKeyboardMarkup:
-        get_count = await CRUDUser.get_all(checked=True)
+        get_count = await CRUDUser.get_all(get_add=1)
         get_all_count = await CRUDUser.get_all()
         return InlineKeyboardMarkup(
             inline_keyboard=[
@@ -81,7 +81,7 @@ class AdminPanel:
                                                          callback_data=admin_cb.new("UserProfile", user.id,
                                                                                     user.user_id))
                                 ]
-                                for user in await CRUDUser.get_all(checked=checked)
+                                for user in await CRUDUser.get_all(get_add=1)
                             ] + [
                                 [
                                     InlineKeyboardButton(text="← Назад",
