@@ -4,6 +4,7 @@ from aiogram import types
 from aiogram.dispatcher.storage import FSMContext
 from aiogram.utils.exceptions import BadRequest
 
+from crud import CRUDAdmin
 from crud.usersCRUD import CRUDUser
 from filters import IsAdmin
 from keyboards import UserForm, admin_cb, AdminPanel
@@ -44,16 +45,16 @@ async def registration_start(message: types.Message, state: FSMContext):
 @dp.message_handler(commands=["start"])
 async def registration_start(message: types.Message):
     get_user = await CRUDUser.get(user_id=message.from_user.id)
+    get_admin = await CRUDAdmin.get(admin_id=message.from_user.id)
+
     if get_user:
         await message.delete()
-        if get_user.positions_id == 2:
-            await message.answer(
-                text=f"<b>{message.from_user.full_name}</b>, вы вошли в админ панель.",
-                reply_markup=await AdminPanel.get_admin_panel()
-            )
-        else:
-            await UserForm.user_exists(message=message)
-
+        await UserForm.user_exists(message=message)
+    elif get_admin:
+        await message.answer(
+            text=f"<b>{message.from_user.full_name}</b>, вы вошли в админ панель.",
+            reply_markup=await AdminPanel.get_admin_panel()
+        )
     else:
         await message.delete()
         await UserForm.user_not_exists(message=message)
