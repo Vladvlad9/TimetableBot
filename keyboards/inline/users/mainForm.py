@@ -6,6 +6,7 @@ from aiogram.types import CallbackQuery, Message, InlineKeyboardMarkup, InlineKe
 from aiogram.utils.callback_data import CallbackData
 from aiogram.utils.exceptions import BadRequest
 
+from config import CONFIG
 from crud import CRUDUser, CRUDPosition, CRUDWeek
 from loader import bot
 from schemas import UserSchema, WeekSchema, WeekInDBSchema
@@ -183,10 +184,11 @@ class MainForms:
                                                              reply_markup=await MainForms.main_menu_ikb(
                                                                  user_id=callback.from_user.id)
                                                              )
-                            await bot.send_message(chat_id=381252111,  #1170684135  381252111
-                                                   text=f"{get_user.lname} {get_user.fname} Обновил расписание",
-                                                   parse_mode="HTML",
-                                                   )
+                            for admin in CONFIG.BOT.ADMINS:
+                                await bot.send_message(chat_id=admin,  #1170684135  381252111
+                                                       text=f"{get_user.lname} {get_user.fname} Обновил расписание",
+                                                       parse_mode="HTML",
+                                                       )
                             await state.finish()
                         except Exception as e:
                             print(e)
@@ -209,10 +211,11 @@ class MainForms:
                                                          reply_markup=await MainForms.main_menu_ikb(
                                                              user_id=callback.from_user.id)
                                                          )
-                        await bot.send_message(chat_id=1170684135,  #1170684135   381252111
-                                               text=f"{get_user.lname} {get_user.fname} добавил дасписание",
-                                               parse_mode="HTML",
-                                               )
+                        for admin in CONFIG.BOT.ADMINS:
+                            await bot.send_message(chat_id=admin,  # 1170684135  381252111
+                                                   text=f"{get_user.lname} {get_user.fname} Добавил расписание",
+                                                   parse_mode="HTML",
+                                                   )
                     await state.finish()
 
         if message:
