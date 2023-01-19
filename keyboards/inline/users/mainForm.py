@@ -250,12 +250,17 @@ class MainForms:
 
                         data = await state.get_data()
 
-                        if await CRUDUser.add(user=UserSchema(**data)):
-                            await message.answer(text=f"{fio[0].title()} {fio[1].title()} {fio[2].title()}\n"
-                                                      "Вы успешно зарег. в системе\n\n"
-                                                      "Главное меню",
-                                                 reply_markup=await MainForms.main_menu_ikb(user_id=user_id))
-                            await state.finish()
+                        try:
+                            if await CRUDUser.add(user=UserSchema(**data)):
+                                await message.answer(text=f"{fio[0].title()} {fio[1].title()} {fio[2].title()}\n"
+                                                          "Вы успешно зарег. в системе\n\n"
+                                                          "Главное меню",
+                                                     reply_markup=await MainForms.main_menu_ikb(user_id=user_id))
+                                await state.finish()
+                            else:
+                                await message.answer(text=f"Возникла небольшая проблема Обратитесь к менеджеру")
+                        except Exception as e:
+                            await message.answer(text=f"Возникла небольшая проблема Обратитесь к менеджеру")
 
                 elif await state.get_state() == "UserStates:Back":
                     try:
