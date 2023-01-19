@@ -172,7 +172,7 @@ class MainForms:
                             user_week.Friday = data_timetable["Friday"]
                             user_week.Saturday = data_timetable["Saturday"]
                             user_week.Sunday = data_timetable["Sunday"]
-                            user_week.description = data_timetable["Description"]
+                            user_week.description = data_timetable["description"]
                             user_week.handle = True
                             get_user.checked = False
 
@@ -183,7 +183,7 @@ class MainForms:
                                                              reply_markup=await MainForms.main_menu_ikb(
                                                                  user_id=callback.from_user.id)
                                                              )
-                            await bot.send_message(chat_id=1170684135,  #1170684135  381252111
+                            await bot.send_message(chat_id=381252111,  #1170684135  381252111
                                                    text=f"{get_user.lname} {get_user.fname} Обновил расписание",
                                                    parse_mode="HTML",
                                                    )

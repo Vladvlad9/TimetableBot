@@ -19,6 +19,16 @@ class User(Base):
     checked = Column(Boolean, default=False)
 
 
+class Admin(Base):
+    __tablename__ = "admins"
+
+    id = Column(Integer, primary_key=True)
+    user_id = Column(BigInteger, nullable=False)
+    lname = Column(Text, nullable=False)
+    fname = Column(Text, nullable=False)
+    mname = Column(Text, nullable=False)
+
+
 class Week(Base):
     __tablename__: str = "weeks"
 
