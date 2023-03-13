@@ -5,7 +5,9 @@ from aiogram.utils.exceptions import BadRequest
 
 from crud import CRUDUser, CRUDWeek
 from loader import bot
-
+from states.admins.admin import AddMailingFSM
+from states.users import UserStates
+import logging
 admin_cb = CallbackData("admin", "target", "id", "editId")
 
 
@@ -24,6 +26,11 @@ class AdminPanel:
                 [
                     InlineKeyboardButton(text=f"Добавили расписание ({len(get_count)})",
                                          callback_data=admin_cb.new("AddTimetable", 0, 0)
+                                         )
+                ],
+                [
+                    InlineKeyboardButton(text=f"Рассылка",
+                                         callback_data=admin_cb.new("NewsletterUser", 0, 0)
                                          )
                 ]
             ]
@@ -141,6 +148,10 @@ class AdminPanel:
                                                              user_id=user_id,
                                                              user_id_tg=user_id_tg))
 
+                elif data.get('target') == "NewsletterUser":
+                    await callback.message.edit_text(text="Введите текст!")
+                    await AddMailingFSM.NewsletterUser.set()
+
         if message:
             await message.delete()
 
@@ -153,4 +164,20 @@ class AdminPanel:
                 pass
 
             if state:
-                pass
+                if await state.get_state() == "AddMailingFSM:NewsletterUser":
+                    try:
+                        text = "‼️Напоминание‼️\n\n" \
+                               f"{message.text}" \
+                               "(Меню -> Войти ...)\n\n"
+                        users = await CRUDUser.get_all(checked=True)
+                        for user in users:
+                            await bot.send_message(chat_id=user.user_id,
+                                                   text=text,
+                                                   parse_mode="HTML"
+                                                   )
+                        await state.finish()
+                        await message.answer(text="Рассылка успешно отправлена")
+                    except Exception as e:
+                        print(e)
+                        await message.answer(text="Ошибка, Кто то удалился из бота"
+                                                  "короче напиши Владиславу!")
