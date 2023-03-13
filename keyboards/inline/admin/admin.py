@@ -167,7 +167,7 @@ class AdminPanel:
                 if await state.get_state() == "AddMailingFSM:NewsletterUser":
                     try:
                         text = "‼️Напоминание‼️\n\n" \
-                               f"{message.text}" \
+                               f"{message.text}\n\n" \
                                "(Меню -> Войти ...)\n\n"
                         users = await CRUDUser.get_all(checked=True)
                         for user in users:
