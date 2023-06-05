@@ -1,4 +1,4 @@
-from sqlalchemy import select, update
+from sqlalchemy import select, update, delete
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.ext.asyncio import AsyncSession
 from schemas import WeekInDBSchema, WeekSchema
@@ -50,3 +50,16 @@ class CRUDWeek(object):
             await session.commit()
         except IntegrityError as eq:
             print(eq)
+
+    @staticmethod
+    @create_async_session
+    async def delete(user_id: int = None, session: AsyncSession = None) -> None:
+        if user_id:
+            await session.execute(
+                delete(Week).where(Week.user_id == user_id)
+            )
+        else:
+            await session.execute(
+                delete(Week)
+            )
+        await session.commit()

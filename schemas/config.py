@@ -9,3 +9,4 @@ class BotSchema(BaseModel):
 class ConfigSchema(BaseModel):
     BOT: BotSchema
     DATABASE: str
+    NewsletterUser: str
