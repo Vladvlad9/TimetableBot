@@ -269,7 +269,7 @@ class AdminPanel:
                     tasks = []
                     try:
                         for user in users:
-                            tasks.append(bot.send_message(chat_id=user,
+                            tasks.append(bot.send_message(chat_id=user.user_id,
                                                           text=CONFIG.NewsletterUser))
 
                         await asyncio.gather(*tasks, return_exceptions=True)  # Отправка всем админам сразу
@@ -285,7 +285,7 @@ class AdminPanel:
                     tasks = []
                     try:
                         for user in users:
-                            tasks.append(bot.send_message(chat_id=user,
+                            tasks.append(bot.send_message(chat_id=user.user_id,
                                                           text=CONFIG.NewsletterUser))
 
                         await asyncio.gather(*tasks, return_exceptions=True)  # Отправка всем админам сразу
