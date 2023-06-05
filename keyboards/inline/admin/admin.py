@@ -164,7 +164,7 @@ class AdminPanel:
             inline_keyboard=[
                                 [
                                     InlineKeyboardButton(text=f"{user.lname} {user.fname}",
-                                                         callback_data=admin_cb.new("UserProfile", 0, user.id,
+                                                         callback_data=admin_cb.new("UserProfile", "getProfile", user.id,
                                                                                     user.user_id))
                                 ]
                                 for user in await CRUDUser.get_all(get_add=1)
